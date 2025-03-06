@@ -230,7 +230,7 @@ function addProductToDom(item) {
   </span>
   <button class="btn btn-danger" onclick ="stock.removeItem('${item.name}', ${1})" >-</button>
   <button id="plusBtn-${item.name}" class="btn btn-danger">+</button>
-  <button id="deleteBtn-${item.name}" class="btn btn-danger" onclick ="stock.removeItem('${item.name}', ${item.quantity})" >Delete</button>
+  <button id="deleteBtn-${item.name}" class="btn btn-danger">Delete</button>
   `;
 
   productsList.appendChild(li);
@@ -240,12 +240,14 @@ function addProductToDom(item) {
   // 1. При создании кнопки добавили id для получения ссылки
   // <button id="deleteBtn-${item.name}" class="btn btn-danger">Delete</button>
   // 2. Получаем ссылку по id 
+  const deleteBtn = document.getElementById(`deleteBtn-${item.name}`);
   const plusBtn = document.getElementById(`plusBtn-${item.name}`);
   // 3. С помощью ссылки на элемент обрабатываем событие клика на элемент
-  // deleteBtn.onclick = () => {
-  //   stock.removeItem(item.name, item.quantity);
-  //   li.remove();
-  // }
+  deleteBtn.onclick = () => {
+    const actualQuantity = stock.items.find((e) => e.name === item.name).quantity
+    stock.removeItem(item.name, actualQuantity);
+    li.remove();
+  }
 
   plusBtn.onclick = () => {
     stock.addItem({ ...item, quantity: 1 })
